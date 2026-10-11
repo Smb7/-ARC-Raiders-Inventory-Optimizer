@@ -49,6 +49,9 @@ jobs:
       - uses: actions/checkout@v4
       - name: Build and start stack
         run: docker compose up -d --build
+      - name: Dump compose logs on startup failure
+        if: failure()
+        run: docker compose logs
       - name: Wait for backend health
         run: |
           for i in $(seq 1 30); do
