@@ -35,3 +35,34 @@ async def test_fetch_stash_unavailable() -> None:
     with pytest.raises(ArcTrackerError):
         await client.fetch_stash("test-token")
     await client.aclose()
+
+
+@pytest.mark.asyncio
+async def test_fetch_stash_sends_app_key() -> None:
+    def handler(request: httpx.Request) -> httpx.Response:
+        assert request.headers["X-App-Key"] == "app-secret"
+        assert request.headers["Authorization"] == "Bearer test-token"
+        return httpx.Response(200, json={"items": []})
+
+    client = ArcTrackerClient(
+        base_url="https://arctracker.io",
+        app_key="app-secret",
+        transport=httpx.MockTransport(handler),
+    )
+    payload = await client.fetch_stash("test-token")
+    assert payload == {"items": []}
+    await client.aclose()
+
+
+@pytest.mark.asyncio
+async def test_fetch_stash_missing_app_key() -> None:
+    def handler(_request: httpx.Request) -> httpx.Response:
+        return httpx.Response(
+            401,
+            json={"error": {"code": "missing_app_key", "message": "App key required"}},
+        )
+
+    client = ArcTrackerClient(base_url="https://arctracker.io", transport=httpx.MockTransport(handler))
+    with pytest.raises(ArcTrackerError, match="app key"):
+        await client.fetch_stash("test-token")
+    await client.aclose()

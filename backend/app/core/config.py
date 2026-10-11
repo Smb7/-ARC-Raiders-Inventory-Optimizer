@@ -8,6 +8,7 @@ class Settings(BaseSettings):
     database_url: str = "postgresql+asyncpg://arc:arc@localhost:5432/arc_optimizer"
     cors_origins: str = "http://localhost:4200,http://localhost"
     arc_tracker_base_url: str = "https://arctracker.io"
+    arc_tracker_api_key: str = ""
 
 
     @property

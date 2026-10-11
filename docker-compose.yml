@@ -22,6 +22,7 @@ services:
     environment:
       DATABASE_URL: postgresql+asyncpg://arc:arc@db:5432/arc_optimizer
       CORS_ORIGINS: http://localhost,http://localhost:80,http://localhost:4200
+      ARC_TRACKER_API_KEY: ${ARC_TRACKER_API_KEY:-}
     depends_on:
       db:
         condition: service_healthy

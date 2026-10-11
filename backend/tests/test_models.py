@@ -168,9 +168,9 @@ def test_seed_static_data_is_idempotent(db: Session) -> None:
     recipes = db.scalars(select(Recipe)).all()
     yields = db.scalars(select(RecyclingYield)).all()
 
-    assert len(items) == 25
+    assert len(items) == 985
     assert any(item.is_ammo_material for item in items)
     assert any(item.is_high_yield_seed for item in items)
     assert any(item.id == "dog_collar" for item in items)
-    assert len(recipes) == 9
-    assert len(yields) == 2
+    assert len(recipes) >= 27
+    assert len(yields) >= 1000

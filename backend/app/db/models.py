@@ -78,7 +78,7 @@ class StackLimit(Base):
 
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
     user_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("users.id", ondelete="CASCADE"))
-    item_id: Mapped[str] = mapped_column(ForeignKey("items_static.id", ondelete="CASCADE"))
+    item_id: Mapped[str] = mapped_column(String(128), ForeignKey("items_static.id", ondelete="CASCADE"))
     max_stacks: Mapped[int] = mapped_column(Integer)
 
     user: Mapped[User] = relationship(back_populates="stack_limits")
@@ -88,7 +88,7 @@ class StackLimit(Base):
 class ItemStatic(Base):
     __tablename__ = "items_static"
 
-    id: Mapped[str] = mapped_column(String(64), primary_key=True)
+    id: Mapped[str] = mapped_column(String(128), primary_key=True)
     name: Mapped[str] = mapped_column(String(128))
     category: Mapped[str] = mapped_column(String(32), index=True)
     rarity: Mapped[str] = mapped_column(String(16), index=True)
@@ -105,7 +105,7 @@ class Recipe(Base):
     __tablename__ = "recipes"
 
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
-    output_item_id: Mapped[str | None] = mapped_column(ForeignKey("items_static.id"), nullable=True)
+    output_item_id: Mapped[str | None] = mapped_column(String(128), ForeignKey("items_static.id"), nullable=True)
     output_qty: Mapped[int] = mapped_column(Integer, default=1)
     recipe_type: Mapped[str] = mapped_column(String(32), index=True)
     station: Mapped[str | None] = mapped_column(String(32), nullable=True)
@@ -124,7 +124,7 @@ class RecipeIngredient(Base):
 
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
     recipe_id: Mapped[uuid.UUID] = mapped_column(ForeignKey("recipes.id", ondelete="CASCADE"))
-    item_id: Mapped[str] = mapped_column(ForeignKey("items_static.id", ondelete="CASCADE"))
+    item_id: Mapped[str] = mapped_column(String(128), ForeignKey("items_static.id", ondelete="CASCADE"))
     quantity: Mapped[int] = mapped_column(Integer)
 
     recipe: Mapped[Recipe] = relationship(back_populates="ingredients")
@@ -138,8 +138,8 @@ class RecyclingYield(Base):
     )
 
     id: Mapped[uuid.UUID] = mapped_column(Uuid, primary_key=True, default=uuid.uuid4)
-    source_item_id: Mapped[str] = mapped_column(ForeignKey("items_static.id", ondelete="CASCADE"))
-    result_item_id: Mapped[str] = mapped_column(ForeignKey("items_static.id", ondelete="CASCADE"))
+    source_item_id: Mapped[str] = mapped_column(String(128), ForeignKey("items_static.id", ondelete="CASCADE"))
+    result_item_id: Mapped[str] = mapped_column(String(128), ForeignKey("items_static.id", ondelete="CASCADE"))
     quantity: Mapped[int] = mapped_column(Integer)
     context: Mapped[str] = mapped_column(String(16), index=True)
     result_weight: Mapped[float] = mapped_column(Float, default=0)

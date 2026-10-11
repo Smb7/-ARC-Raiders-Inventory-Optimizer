@@ -1,0 +1,557 @@
+[
+  {
+    "label": "Gear Bench Level 1",
+    "station": "gear_bench",
+    "station_level": 1,
+    "ingredients": [
+      [
+        "plastic_parts",
+        25
+      ],
+      [
+        "fabric",
+        30
+      ]
+    ]
+  },
+  {
+    "label": "Gear Bench Level 2",
+    "station": "gear_bench",
+    "station_level": 2,
+    "ingredients": [
+      [
+        "power_cable",
+        3
+      ],
+      [
+        "electrical_components",
+        5
+      ],
+      [
+        "hornet_driver",
+        5
+      ]
+    ]
+  },
+  {
+    "label": "Gear Bench Level 3",
+    "station": "gear_bench",
+    "station_level": 3,
+    "ingredients": [
+      [
+        "industrial_battery",
+        3
+      ],
+      [
+        "advanced_electrical_components",
+        5
+      ],
+      [
+        "bastion_cell",
+        6
+      ]
+    ]
+  },
+  {
+    "label": "Explosives Station Level 1",
+    "station": "explosives_station",
+    "station_level": 1,
+    "ingredients": [
+      [
+        "chemicals",
+        50
+      ],
+      [
+        "arc_alloy",
+        6
+      ]
+    ]
+  },
+  {
+    "label": "Explosives Station Level 2",
+    "station": "explosives_station",
+    "station_level": 2,
+    "ingredients": [
+      [
+        "synthesized_fuel",
+        3
+      ],
+      [
+        "crude_explosives",
+        5
+      ],
+      [
+        "pop_trigger",
+        5
+      ]
+    ]
+  },
+  {
+    "label": "Explosives Station Level 3",
+    "station": "explosives_station",
+    "station_level": 3,
+    "ingredients": [
+      [
+        "laboratory_reagents",
+        3
+      ],
+      [
+        "explosive_compound",
+        5
+      ],
+      [
+        "rocketeer_driver",
+        3
+      ]
+    ]
+  },
+  {
+    "label": "Medical Lab Level 1",
+    "station": "medical_lab",
+    "station_level": 1,
+    "ingredients": [
+      [
+        "fabric",
+        50
+      ],
+      [
+        "arc_alloy",
+        6
+      ]
+    ]
+  },
+  {
+    "label": "Medical Lab Level 2",
+    "station": "medical_lab",
+    "station_level": 2,
+    "ingredients": [
+      [
+        "cracked_bioscanner",
+        2
+      ],
+      [
+        "durable_cloth",
+        5
+      ],
+      [
+        "tick_pod",
+        8
+      ]
+    ]
+  },
+  {
+    "label": "Medical Lab Level 3",
+    "station": "medical_lab",
+    "station_level": 3,
+    "ingredients": [
+      [
+        "rusted_shut_medical_kit",
+        3
+      ],
+      [
+        "antiseptic",
+        8
+      ],
+      [
+        "surveyor_vault",
+        5
+      ]
+    ]
+  },
+  {
+    "label": "Refiner Level 1",
+    "station": "refiner",
+    "station_level": 1,
+    "ingredients": [
+      [
+        "metal_parts",
+        60
+      ],
+      [
+        "arc_powercell",
+        5
+      ]
+    ]
+  },
+  {
+    "label": "Refiner Level 2",
+    "station": "refiner",
+    "station_level": 2,
+    "ingredients": [
+      [
+        "toaster",
+        3
+      ],
+      [
+        "arc_motion_core",
+        5
+      ],
+      [
+        "fireball_burner",
+        8
+      ]
+    ]
+  },
+  {
+    "label": "Refiner Level 3",
+    "station": "refiner",
+    "station_level": 3,
+    "ingredients": [
+      [
+        "motor",
+        3
+      ],
+      [
+        "arc_circuitry",
+        10
+      ],
+      [
+        "bombardier_cell",
+        6
+      ]
+    ]
+  },
+  {
+    "label": "Research Station Level 1",
+    "station": "research_station",
+    "station_level": 1,
+    "ingredients": [
+      [
+        "planks",
+        35
+      ],
+      [
+        "battered_paperback",
+        5
+      ],
+      [
+        "mini_pump",
+        3
+      ]
+    ]
+  },
+  {
+    "label": "Research Station Level 2",
+    "station": "research_station",
+    "station_level": 2,
+    "ingredients": [
+      [
+        "calculator",
+        3
+      ],
+      [
+        "raider_logbook",
+        3
+      ],
+      [
+        "skulker_targeter",
+        5
+      ]
+    ]
+  },
+  {
+    "label": "Research Station Level 3",
+    "station": "research_station",
+    "station_level": 3,
+    "ingredients": [
+      [
+        "differential_microphone",
+        3
+      ],
+      [
+        "exodus_technical_handbook",
+        3
+      ],
+      [
+        "bully_fragmenter",
+        6
+      ]
+    ]
+  },
+  {
+    "label": "Research Station Level 4",
+    "station": "research_station",
+    "station_level": 4,
+    "ingredients": [
+      [
+        "thermal_shaker",
+        3
+      ],
+      [
+        "arc_data_module",
+        3
+      ],
+      [
+        "frigate_inductor",
+        1
+      ]
+    ]
+  },
+  {
+    "label": "Scrappy Level 1",
+    "station": "scrappy",
+    "station_level": 1,
+    "ingredients": []
+  },
+  {
+    "label": "Scrappy Level 2",
+    "station": "scrappy",
+    "station_level": 2,
+    "ingredients": [
+      [
+        "dog_collar",
+        1
+      ]
+    ]
+  },
+  {
+    "label": "Scrappy Level 3",
+    "station": "scrappy",
+    "station_level": 3,
+    "ingredients": [
+      [
+        "lemon",
+        3
+      ],
+      [
+        "apricot",
+        3
+      ]
+    ]
+  },
+  {
+    "label": "Scrappy Level 4",
+    "station": "scrappy",
+    "station_level": 4,
+    "ingredients": [
+      [
+        "prickly_pear",
+        6
+      ],
+      [
+        "olives",
+        6
+      ],
+      [
+        "cat_bed",
+        1
+      ]
+    ]
+  },
+  {
+    "label": "Scrappy Level 5",
+    "station": "scrappy",
+    "station_level": 5,
+    "ingredients": [
+      [
+        "mushroom",
+        12
+      ],
+      [
+        "apricot",
+        12
+      ],
+      [
+        "very_comfortable_pillow",
+        3
+      ]
+    ]
+  },
+  {
+    "label": "Stash Level 1",
+    "station": "stash",
+    "station_level": 1,
+    "ingredients": []
+  },
+  {
+    "label": "Stash Level 2",
+    "station": "stash",
+    "station_level": 2,
+    "ingredients": []
+  },
+  {
+    "label": "Stash Level 3",
+    "station": "stash",
+    "station_level": 3,
+    "ingredients": []
+  },
+  {
+    "label": "Stash Level 4",
+    "station": "stash",
+    "station_level": 4,
+    "ingredients": []
+  },
+  {
+    "label": "Stash Level 5",
+    "station": "stash",
+    "station_level": 5,
+    "ingredients": []
+  },
+  {
+    "label": "Stash Level 6",
+    "station": "stash",
+    "station_level": 6,
+    "ingredients": []
+  },
+  {
+    "label": "Stash Level 7",
+    "station": "stash",
+    "station_level": 7,
+    "ingredients": []
+  },
+  {
+    "label": "Stash Level 8",
+    "station": "stash",
+    "station_level": 8,
+    "ingredients": []
+  },
+  {
+    "label": "Stash Level 9",
+    "station": "stash",
+    "station_level": 9,
+    "ingredients": []
+  },
+  {
+    "label": "Stash Level 10",
+    "station": "stash",
+    "station_level": 10,
+    "ingredients": []
+  },
+  {
+    "label": "Stash Level 11",
+    "station": "stash",
+    "station_level": 11,
+    "ingredients": []
+  },
+  {
+    "label": "Stash Level 12",
+    "station": "stash",
+    "station_level": 12,
+    "ingredients": []
+  },
+  {
+    "label": "Utility Station Level 1",
+    "station": "utility_station",
+    "station_level": 1,
+    "ingredients": [
+      [
+        "plastic_parts",
+        50
+      ],
+      [
+        "arc_alloy",
+        6
+      ]
+    ]
+  },
+  {
+    "label": "Utility Station Level 2",
+    "station": "utility_station",
+    "station_level": 2,
+    "ingredients": [
+      [
+        "damaged_heat_sink",
+        2
+      ],
+      [
+        "electrical_components",
+        5
+      ],
+      [
+        "snitch_scanner",
+        6
+      ]
+    ]
+  },
+  {
+    "label": "Utility Station Level 3",
+    "station": "utility_station",
+    "station_level": 3,
+    "ingredients": [
+      [
+        "fried_motherboard",
+        3
+      ],
+      [
+        "advanced_electrical_components",
+        5
+      ],
+      [
+        "leaper_pulse_unit",
+        4
+      ]
+    ]
+  },
+  {
+    "label": "Gunsmith Level 1",
+    "station": "gunsmith",
+    "station_level": 1,
+    "ingredients": [
+      [
+        "metal_parts",
+        20
+      ],
+      [
+        "rubber_parts",
+        30
+      ]
+    ]
+  },
+  {
+    "label": "Gunsmith Level 2",
+    "station": "gunsmith",
+    "station_level": 2,
+    "ingredients": [
+      [
+        "rusted_tools",
+        3
+      ],
+      [
+        "mechanical_components",
+        5
+      ],
+      [
+        "wasp_driver",
+        8
+      ]
+    ]
+  },
+  {
+    "label": "Gunsmith Level 3",
+    "station": "gunsmith",
+    "station_level": 3,
+    "ingredients": [
+      [
+        "rusted_gear",
+        3
+      ],
+      [
+        "advanced_mechanical_components",
+        5
+      ],
+      [
+        "sentinel_firing_core",
+        4
+      ]
+    ]
+  },
+  {
+    "label": "Gunsmith Level 4",
+    "station": "gunsmith",
+    "station_level": 4,
+    "ingredients": [
+      [
+        "radial_press",
+        3
+      ],
+      [
+        "magnetic_accelerator",
+        3
+      ],
+      [
+        "emperor_modulator",
+        1
+      ]
+    ]
+  }
+]
