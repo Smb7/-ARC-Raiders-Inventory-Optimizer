@@ -94,7 +94,7 @@ def test_ammo_keep_when_not_next_hideout(db: Session) -> None:
 def test_recycle_yield_and_weight(db: Session) -> None:
     user, recipes, yields, items = _context(db)
     result = optimize_stash(
-        [_item("broken_arc_module", 1, name="Broken Arc Module")],
+        [_item("acoustic_guitar", 1, name="Acoustic Guitar")],
         user,
         recipes,
         yields,
@@ -181,11 +181,21 @@ def test_sell_vendor_trash_excess_and_unusable_core(db: Session) -> None:
     user.refiner_level = 1
     db.add(StackLimit(user_id=user.id, item_id="metal_parts", max_stacks=5))
     db.commit()
+    items["gated_core"] = ItemStatic(
+        id="gated_core",
+        name="Gated Core",
+        category=ItemCategory.MATERIAL,
+        rarity=ItemRarity.PURPLE,
+        weight=0.5,
+        vendor_sell_price=1200,
+        required_workbench="refiner",
+        required_workbench_level=3,
+    )
     result = optimize_stash(
         [
             _item("metal_parts", 12, name="Metal Parts"),
             _item("vendor_trinket", 1, name="Tarnished Lighter"),
-            _item("arc_motion_core", 1, name="Arc Motion Core"),
+            _item("gated_core", 1, name="Gated Core"),
         ],
         user,
         recipes,
@@ -198,4 +208,4 @@ def test_sell_vendor_trash_excess_and_unusable_core(db: Session) -> None:
     assert next(row.quantity for row in result.sell if row.item_id == "metal_parts") == 7
     assert next(row.quantity for row in result.keep if row.item_id == "metal_parts") == 5
     assert sell_reasons["vendor_trinket"] == REASON_TRASH
-    assert sell_reasons["arc_motion_core"] == REASON_UNUSABLE
+    assert sell_reasons["gated_core"] == REASON_UNUSABLE

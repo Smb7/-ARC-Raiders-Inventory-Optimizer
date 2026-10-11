@@ -12,37 +12,44 @@ TOKEN = os.environ.get("ARC_TRACKER_API_KEY", "").strip()
 
 ENDPOINTS = [
     "/api/v2/user/stash",
-    "/api/v2/user",
     "/api/v2/items",
-    "/api/v2/recipes",
-    "/api/v2/hideout",
     "/api/items",
-    "/api/stash",
+    "/api/crafts",
+    "/api/recipes",
+    "/api/hideout",
+    "/api/recycling",
+    "/api/stations",
 ]
 
 
 def headers_for(style: str) -> dict[str, str]:
     common = {"Accept": "application/json", "User-Agent": "arc-raiders-inventory-optimizer-probe"}
+    if style == "app-key":
+        return {**common, "X-App-Key": TOKEN}
+    if style == "app-key-bearer":
+        return {**common, "X-App-Key": TOKEN, "Authorization": f"Bearer {TOKEN}"}
+    if style == "query":
+        return common
     if style == "bearer":
         return {**common, "Authorization": f"Bearer {TOKEN}"}
-    if style == "raw":
-        return {**common, "Authorization": TOKEN}
-    if style == "x-api-key":
-        return {**common, "X-API-Key": TOKEN}
     return common
 
 
 def fetch(url: str, headers: dict[str, str]) -> dict[str, Any]:
     req = urllib.request.Request(url, headers=headers, method="GET")
     try:
-        with urllib.request.urlopen(req, context=ssl.create_default_context(), timeout=20) as resp:
-            body = resp.read()[:200_000]
+        with urllib.request.urlopen(req, context=ssl.create_default_context(), timeout=60) as resp:
+            raw = resp.read()
             parsed: Any
             try:
-                parsed = json.loads(body.decode("utf-8"))
+                parsed = json.loads(raw.decode("utf-8"))
             except json.JSONDecodeError:
-                parsed = body.decode("utf-8", errors="replace")[:500]
-            return {"ok": True, "status": resp.status, "keys": _keys(parsed), "sample": _sample(parsed)}
+                parsed = raw.decode("utf-8", errors="replace")[:500]
+            result = {"ok": True, "status": resp.status, "bytes": len(raw), "keys": _keys(parsed), "sample": _sample(parsed)}
+            if isinstance(parsed, dict) and "items" in parsed:
+                (OUT / "items_catalog.json").write_bytes(raw)
+                result["saved"] = "items_catalog.json"
+            return result
     except urllib.error.HTTPError as exc:
         body = exc.read()[:1000].decode("utf-8", errors="replace")
         return {"ok": False, "status": exc.code, "body": body[:300]}
@@ -92,11 +99,13 @@ def main() -> None:
     OUT.mkdir(parents=True, exist_ok=True)
     report: dict[str, Any] = {"results": []}
     for path in ENDPOINTS:
-        for style in ("bearer", "raw", "x-api-key"):
+        for style in ("app-key", "app-key-bearer", "query", "bearer"):
             url = f"{BASE}{path}"
+            if style == "query":
+                url = f"{url}?app_key={TOKEN}"
             result = {"path": path, "auth": style, **fetch(url, headers_for(style))}
             report["results"].append(result)
-            if result.get("ok"):
+            if result.get("ok") and result.get("status") == 200:
                 break
     (OUT / "arc_tracker_probe.json").write_text(json.dumps(report, indent=2), encoding="utf-8")
     print(json.dumps({"ok_count": sum(1 for row in report["results"] if row.get("ok"))}, indent=2))
