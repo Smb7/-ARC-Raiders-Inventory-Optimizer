@@ -3,6 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 
 from app.api.auth import router as auth_router
 from app.api.health import router as health_router
+from app.api.optimize import router as optimize_router
 from app.api.stash import router as stash_router
 from app.core.config import settings
 
@@ -19,3 +20,4 @@ app.add_middleware(
 app.include_router(health_router)
 app.include_router(auth_router)
 app.include_router(stash_router)
+app.include_router(optimize_router)

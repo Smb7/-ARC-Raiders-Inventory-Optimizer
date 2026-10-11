@@ -75,3 +75,20 @@ def test_connect_and_scan_stash(api_client: TestClient) -> None:
     assert body["total_quantity"] == 8
     assert body["items"][0]["name"] == "Metal Parts"
     assert body["items"][0]["known"] is True
+
+
+def test_optimize_stash_and_preferences(api_client: TestClient) -> None:
+    connect = api_client.post("/api/v1/auth/connect", json={"token": "valid-token", "remember_me": True})
+    user_id = connect.json()["user_id"]
+
+    prefs = api_client.patch(
+        f"/api/v1/users/{user_id}/preferences",
+        json={"gunsmith_level": 1, "never_sell_ammo_materials": True},
+    )
+    assert prefs.status_code == 200
+
+    result = api_client.post("/api/v1/optimize-stash", json={"user_id": user_id})
+    assert result.status_code == 200
+    body = result.json()
+    assert body["keep"][0]["badge"] == "Ammo Essential"
+    assert body["scanned_count"] == 1
