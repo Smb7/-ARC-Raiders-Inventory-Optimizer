@@ -1,0 +1,30 @@
+<main class="min-h-screen bg-zinc-950 text-zinc-100">
+  <header class="flex items-center justify-between border-b border-zinc-800 px-6 py-4">
+    <p class="font-mono text-sm tracking-widest text-amber-400">SPERANZA // STASH OPS</p>
+    <p class="text-xs text-zinc-500">Read-only companion</p>
+  </header>
+
+  <section class="mx-auto flex max-w-4xl flex-col gap-8 px-6 py-24">
+    <p class="font-mono text-xs uppercase tracking-[0.25em] text-amber-500">ARC Raiders Inventory Optimizer</p>
+    <h1 class="max-w-3xl text-4xl font-semibold leading-tight md:text-5xl">
+      Clean Your Stash in Seconds. Never Accidentally Sell What You Need.
+    </h1>
+    <p class="max-w-2xl text-lg text-zinc-400">
+      Scan your live stash, cross-check hideout crafts, and get a Keep / Recycle / Sell checklist before you dump the wrong stack.
+    </p>
+    <button
+      class="w-fit border border-amber-500 bg-amber-500 px-6 py-3 font-mono text-sm uppercase tracking-wide text-zinc-950"
+      type="button"
+      (click)="openConnect()"
+    >
+      Connect Stash / Get Started
+    </button>
+    <aside class="border border-zinc-800 bg-zinc-900/60 p-4 text-sm text-zinc-400">
+      Trust &amp; security: this app uses read-only ARC Tracker access. It cannot sell, recycle, or move items in-game.
+    </aside>
+  </section>
+</main>
+
+@if (showModal) {
+  <app-connect-modal (closed)="showModal = false" (connected)="onConnected()" />
+}

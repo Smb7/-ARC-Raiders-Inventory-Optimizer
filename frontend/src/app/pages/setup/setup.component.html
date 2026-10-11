@@ -1,0 +1,51 @@
+<main class="min-h-screen bg-zinc-950 px-6 py-12 text-zinc-100">
+  <section class="mx-auto max-w-xl">
+    <p class="font-mono text-xs uppercase tracking-[0.2em] text-amber-400">First-time calibration</p>
+    <h1 class="mt-2 text-3xl">Hideout workbench tiers</h1>
+    <p class="mt-2 text-sm text-zinc-400">Set your current station levels so hideout needs stay in the Keep column.</p>
+
+    <div class="mt-8 space-y-6">
+      <label class="block">
+        <span class="flex justify-between text-sm">Scrappy <span class="font-mono text-amber-300">{{ scrappyLevel }}</span></span>
+        <input class="mt-2 w-full accent-amber-500" type="range" min="1" max="5" [(ngModel)]="scrappyLevel" name="scrappy" />
+      </label>
+      <label class="block">
+        <span class="flex justify-between text-sm">Gunsmith <span class="font-mono text-amber-300">{{ gunsmithLevel }}</span></span>
+        <input class="mt-2 w-full accent-amber-500" type="range" min="1" max="5" [(ngModel)]="gunsmithLevel" name="gunsmith" />
+      </label>
+      <label class="block">
+        <span class="flex justify-between text-sm">Refiner <span class="font-mono text-amber-300">{{ refinerLevel }}</span></span>
+        <input class="mt-2 w-full accent-amber-500" type="range" min="1" max="5" [(ngModel)]="refinerLevel" name="refiner" />
+      </label>
+    </div>
+
+    <h2 class="mt-10 text-lg">Hoarding rules</h2>
+    <div class="mt-4 space-y-3 text-sm text-zinc-300">
+      <label class="flex items-center gap-2">
+        <input type="checkbox" [(ngModel)]="neverSellAmmo" name="ammo" />
+        Never sell base ammo materials
+      </label>
+      <label class="flex items-center gap-2">
+        <input type="checkbox" [(ngModel)]="keepSeeds" name="seeds" />
+        Keep high-yield seeds for augments
+      </label>
+      <label class="flex items-center gap-2">
+        <input type="checkbox" [(ngModel)]="highlightLowDurability" name="durability" />
+        Highlight low-durability duplicates
+      </label>
+    </div>
+
+    @if (error) {
+      <p class="mt-4 text-sm text-red-400">{{ error }}</p>
+    }
+
+    <button
+      class="mt-8 border border-amber-500 bg-amber-500 px-5 py-3 font-mono text-sm text-zinc-950 disabled:opacity-60"
+      type="button"
+      [disabled]="saving"
+      (click)="save()"
+    >
+      {{ saving ? 'Scanning stash...' : 'Save & Scan' }}
+    </button>
+  </section>
+</main>
