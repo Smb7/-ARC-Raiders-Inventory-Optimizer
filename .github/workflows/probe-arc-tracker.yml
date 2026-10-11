@@ -1,0 +1,24 @@
+name: Probe ARC Tracker API
+
+on:
+  workflow_dispatch:
+  push:
+    branches: ["feat/live-arc-api"]
+
+jobs:
+  probe:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Probe API
+        env:
+          ARC_TRACKER_API_KEY: ${{ secrets.ARC_TRACKER_API_KEY }}
+          PROBE_OUT: probe-output
+        run: python backend/scripts/probe_arc_tracker.py
+      - uses: actions/upload-artifact@v4
+        with:
+          name: arc-tracker-probe
+          path: probe-output/arc_tracker_probe.json
