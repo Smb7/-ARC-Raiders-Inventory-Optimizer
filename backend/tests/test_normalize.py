@@ -41,3 +41,19 @@ def test_normalize_maps_known_and_unknown_items() -> None:
 def test_normalize_defaults_quantity_to_one() -> None:
     result = normalize_stash([{"id": "metal_parts"}], {"metal_parts": _metal()})
     assert result.items[0].quantity == 1
+
+
+def test_normalize_aliases_legacy_item_ids() -> None:
+    magnet = ItemStatic(
+        id="magnet",
+        name="Magnet",
+        category=ItemCategory.MATERIAL,
+        rarity=ItemRarity.GREEN,
+        weight=0.3,
+        vendor_sell_price=200,
+        is_high_yield_seed=True,
+    )
+    result = normalize_stash([{"id": "magnets", "quantity": 2}], {"magnet": magnet})
+    assert result.items[0].known is True
+    assert result.items[0].item_id == "magnet"
+    assert result.items[0].raw_id == "magnets"

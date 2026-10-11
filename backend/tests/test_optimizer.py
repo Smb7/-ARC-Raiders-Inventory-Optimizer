@@ -51,7 +51,7 @@ def _item(
 
 def _context(db: Session) -> tuple[User, list[Recipe], list[RecyclingYield], dict[str, ItemStatic]]:
     seed_static_data(db)
-    user = User(scrappy_level=1, gunsmith_level=1, refiner_level=1)
+    user = User(scrappy_level=1, gunsmith_level=0, refiner_level=3)
     db.add(user)
     db.commit()
     recipes = list(db.scalars(select(Recipe).options(selectinload(Recipe.ingredients))).all())
@@ -65,8 +65,9 @@ def test_keep_hideout_ammo_and_seeds(db: Session) -> None:
     result = optimize_stash(
         [
             _item("metal_parts", 20, name="Metal Parts"),
-            _item("magnets", 3, name="Magnets"),
-            _item("steel_springs", 4, name="Steel Springs"),
+            _item("rubber_parts", 30, name="Rubber Parts"),
+            _item("magnet", 3, name="Magnet"),
+            _item("steel_spring", 4, name="Steel Spring"),
         ],
         user,
         recipes,
@@ -76,15 +77,16 @@ def test_keep_hideout_ammo_and_seeds(db: Session) -> None:
     )
     reasons = {row.item_id: row.reason for row in result.keep}
     assert reasons["metal_parts"] == REASON_HIDEOUT
-    assert reasons["magnets"] == REASON_SEED
-    assert reasons["steel_springs"] == REASON_HIDEOUT
+    assert reasons["rubber_parts"] == REASON_HIDEOUT
+    assert reasons["magnet"] == REASON_SEED
+    assert reasons["steel_spring"] == REASON_SEED
     assert result.sell == []
     assert result.recycle == []
 
 
 def test_ammo_keep_when_not_next_hideout(db: Session) -> None:
     user, recipes, yields, items = _context(db)
-    user.gunsmith_level = 2
+    user.gunsmith_level = 4
     result = optimize_stash([_item("metal_parts", 5)], user, recipes, yields, {}, items)
     assert result.keep[0].reason == REASON_AMMO
 
@@ -176,6 +178,7 @@ def test_low_durability_weapon(db: Session) -> None:
 
 def test_sell_vendor_trash_excess_and_unusable_core(db: Session) -> None:
     user, recipes, yields, items = _context(db)
+    user.refiner_level = 1
     db.add(StackLimit(user_id=user.id, item_id="metal_parts", max_stacks=5))
     db.commit()
     result = optimize_stash(

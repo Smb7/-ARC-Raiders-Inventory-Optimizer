@@ -40,7 +40,13 @@ class RecycleContext(StrEnum):
 class Workbench(StrEnum):
     SCRAPPY = "scrappy"
     GUNSMITH = "gunsmith"
+    GEAR_BENCH = "gear_bench"
+    MEDICAL_LAB = "medical_lab"
+    EXPLOSIVES_STATION = "explosives_station"
+    UTILITY_STATION = "utility_station"
     REFINER = "refiner"
+    RESEARCH_STATION = "research_station"
+    STASH = "stash"
 
 
 class User(Base):
@@ -51,8 +57,14 @@ class User(Base):
     arc_tracker_token: Mapped[str | None] = mapped_column(String(512), nullable=True)
     remember_token: Mapped[bool] = mapped_column(Boolean, default=False)
     scrappy_level: Mapped[int] = mapped_column(Integer, default=1)
-    gunsmith_level: Mapped[int] = mapped_column(Integer, default=1)
-    refiner_level: Mapped[int] = mapped_column(Integer, default=1)
+    gunsmith_level: Mapped[int] = mapped_column(Integer, default=0)
+    gear_bench_level: Mapped[int] = mapped_column(Integer, default=0)
+    medical_lab_level: Mapped[int] = mapped_column(Integer, default=0)
+    explosives_station_level: Mapped[int] = mapped_column(Integer, default=0)
+    utility_station_level: Mapped[int] = mapped_column(Integer, default=0)
+    refiner_level: Mapped[int] = mapped_column(Integer, default=0)
+    research_station_level: Mapped[int] = mapped_column(Integer, default=0)
+    stash_level: Mapped[int] = mapped_column(Integer, default=0)
     never_sell_ammo_materials: Mapped[bool] = mapped_column(Boolean, default=True)
     keep_high_yield_seeds: Mapped[bool] = mapped_column(Boolean, default=True)
     highlight_low_durability_duplicates: Mapped[bool] = mapped_column(Boolean, default=True)
@@ -82,6 +94,7 @@ class ItemStatic(Base):
     rarity: Mapped[str] = mapped_column(String(16), index=True)
     weight: Mapped[float] = mapped_column(Float)
     vendor_sell_price: Mapped[int] = mapped_column(Integer, default=0)
+    stack_size: Mapped[int] = mapped_column(Integer, default=1)
     is_ammo_material: Mapped[bool] = mapped_column(Boolean, default=False)
     is_high_yield_seed: Mapped[bool] = mapped_column(Boolean, default=False)
     required_workbench: Mapped[str | None] = mapped_column(String(32), nullable=True)

@@ -11,11 +11,35 @@
       </label>
       <label class="block">
         <span class="flex justify-between text-sm">Gunsmith <span class="font-mono text-amber-300">{{ gunsmithLevel }}</span></span>
-        <input class="mt-2 w-full accent-amber-500" type="range" min="1" max="5" [(ngModel)]="gunsmithLevel" name="gunsmith" />
+        <input class="mt-2 w-full accent-amber-500" type="range" min="0" max="4" [(ngModel)]="gunsmithLevel" name="gunsmith" />
+      </label>
+      <label class="block">
+        <span class="flex justify-between text-sm">Gear Bench <span class="font-mono text-amber-300">{{ gearBenchLevel }}</span></span>
+        <input class="mt-2 w-full accent-amber-500" type="range" min="0" max="3" [(ngModel)]="gearBenchLevel" name="gear" />
+      </label>
+      <label class="block">
+        <span class="flex justify-between text-sm">Medical Lab <span class="font-mono text-amber-300">{{ medicalLabLevel }}</span></span>
+        <input class="mt-2 w-full accent-amber-500" type="range" min="0" max="3" [(ngModel)]="medicalLabLevel" name="medical" />
+      </label>
+      <label class="block">
+        <span class="flex justify-between text-sm">Explosives Station <span class="font-mono text-amber-300">{{ explosivesLevel }}</span></span>
+        <input class="mt-2 w-full accent-amber-500" type="range" min="0" max="3" [(ngModel)]="explosivesLevel" name="explosives" />
+      </label>
+      <label class="block">
+        <span class="flex justify-between text-sm">Utility Station <span class="font-mono text-amber-300">{{ utilityLevel }}</span></span>
+        <input class="mt-2 w-full accent-amber-500" type="range" min="0" max="3" [(ngModel)]="utilityLevel" name="utility" />
       </label>
       <label class="block">
         <span class="flex justify-between text-sm">Refiner <span class="font-mono text-amber-300">{{ refinerLevel }}</span></span>
-        <input class="mt-2 w-full accent-amber-500" type="range" min="1" max="5" [(ngModel)]="refinerLevel" name="refiner" />
+        <input class="mt-2 w-full accent-amber-500" type="range" min="0" max="3" [(ngModel)]="refinerLevel" name="refiner" />
+      </label>
+      <label class="block">
+        <span class="flex justify-between text-sm">Research Station <span class="font-mono text-amber-300">{{ researchLevel }}</span></span>
+        <input class="mt-2 w-full accent-amber-500" type="range" min="0" max="3" [(ngModel)]="researchLevel" name="research" />
+      </label>
+      <label class="block">
+        <span class="flex justify-between text-sm">Stash <span class="font-mono text-amber-300">{{ stashLevel }}</span></span>
+        <input class="mt-2 w-full accent-amber-500" type="range" min="0" max="5" [(ngModel)]="stashLevel" name="stash" />
       </label>
     </div>
 

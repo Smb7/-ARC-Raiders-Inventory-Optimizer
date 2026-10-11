@@ -1,5 +1,6 @@
 from typing import Any
 
+from app.data.catalog import ITEM_ALIASES
 from app.db.models import ItemStatic
 from app.schemas.stash import NormalizedStash, NormalizedStashItem
 
@@ -34,7 +35,8 @@ def normalize_stash(payload: Any, items_by_id: dict[str, ItemStatic]) -> Normali
         raw_id = _first(row, _ID_KEYS)
         if raw_id is None:
             continue
-        item_id = str(raw_id)
+        raw_id_str = str(raw_id)
+        item_id = ITEM_ALIASES.get(raw_id_str, raw_id_str)
         quantity_raw = _first(row, _QTY_KEYS)
         quantity = int(quantity_raw) if quantity_raw is not None else 1
         durability_raw = _first(row, _DURABILITY_KEYS)
@@ -46,7 +48,7 @@ def normalize_stash(payload: Any, items_by_id: dict[str, ItemStatic]) -> Normali
             normalized.append(
                 NormalizedStashItem(
                     item_id=item_id,
-                    raw_id=item_id,
+                    raw_id=raw_id_str,
                     name=str(row.get("name") or item_id),
                     category="unknown",
                     rarity="unknown",
@@ -62,7 +64,7 @@ def normalize_stash(payload: Any, items_by_id: dict[str, ItemStatic]) -> Normali
         normalized.append(
             NormalizedStashItem(
                 item_id=static.id,
-                raw_id=item_id,
+                raw_id=raw_id_str,
                 name=static.name,
                 category=static.category,
                 rarity=static.rarity,
