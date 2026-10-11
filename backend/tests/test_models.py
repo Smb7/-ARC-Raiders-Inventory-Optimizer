@@ -26,6 +26,7 @@ def test_user_defaults(db: Session) -> None:
 
     assert user.id is not None
     assert user.scrappy_level == 1
+    assert user.gunsmith_level == 0
     assert user.never_sell_ammo_materials is True
     assert user.arc_tracker_token is None
 
@@ -167,8 +168,9 @@ def test_seed_static_data_is_idempotent(db: Session) -> None:
     recipes = db.scalars(select(Recipe)).all()
     yields = db.scalars(select(RecyclingYield)).all()
 
-    assert len(items) == 9
+    assert len(items) == 25
     assert any(item.is_ammo_material for item in items)
     assert any(item.is_high_yield_seed for item in items)
-    assert len(recipes) == 2
+    assert any(item.id == "dog_collar" for item in items)
+    assert len(recipes) == 9
     assert len(yields) == 2

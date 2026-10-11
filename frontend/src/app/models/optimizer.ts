@@ -37,7 +37,13 @@ export interface ConnectResponse {
 export interface PreferenceUpdate {
   scrappy_level: number;
   gunsmith_level: number;
+  gear_bench_level: number;
+  medical_lab_level: number;
+  explosives_station_level: number;
+  utility_station_level: number;
   refiner_level: number;
+  research_station_level: number;
+  stash_level: number;
   never_sell_ammo_materials: boolean;
   keep_high_yield_seeds: boolean;
   highlight_low_durability_duplicates: boolean;

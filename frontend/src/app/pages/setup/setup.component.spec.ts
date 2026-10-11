@@ -19,6 +19,8 @@ describe('SetupComponent', () => {
     const text = (fixture.nativeElement as HTMLElement).textContent ?? '';
     expect(text).toContain('Scrappy');
     expect(text).toContain('Gunsmith');
+    expect(text).toContain('Gear Bench');
+    expect(text).toContain('Medical Lab');
     expect(text).toContain('Refiner');
     expect(text).toContain('Never sell base ammo materials');
   });

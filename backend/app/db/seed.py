@@ -1,144 +1,71 @@
+from sqlalchemy import select
 from sqlalchemy.orm import Session
 
-from app.db.models import (
-    ItemCategory,
-    ItemRarity,
-    ItemStatic,
-    Recipe,
-    RecipeIngredient,
-    RecipeType,
-    RecycleContext,
-    RecyclingYield,
-    Workbench,
-)
+from app.data.catalog import CATALOG_ITEMS, CRAFT_RECIPES, HIDEOUT_RECIPES, RECYCLING_YIELDS
+from app.db.models import ItemStatic, Recipe, RecipeIngredient, RecipeType, RecyclingYield
 
-SAMPLE_ITEMS: list[dict] = [
-    {
-        "id": "metal_parts",
-        "name": "Metal Parts",
-        "category": ItemCategory.MATERIAL,
-        "rarity": ItemRarity.GRAY,
-        "weight": 0.2,
-        "vendor_sell_price": 50,
-        "is_ammo_material": True,
-    },
-    {
-        "id": "magnets",
-        "name": "Magnets",
-        "category": ItemCategory.MATERIAL,
-        "rarity": ItemRarity.GREEN,
-        "weight": 0.3,
-        "vendor_sell_price": 200,
-        "is_high_yield_seed": True,
-    },
-    {
-        "id": "steel_springs",
-        "name": "Steel Springs",
-        "category": ItemCategory.MATERIAL,
-        "rarity": ItemRarity.GREEN,
-        "weight": 0.25,
-        "vendor_sell_price": 180,
-        "is_high_yield_seed": True,
-    },
-    {
-        "id": "duct_tape",
-        "name": "Duct Tape",
-        "category": ItemCategory.MATERIAL,
-        "rarity": ItemRarity.GRAY,
-        "weight": 0.15,
-        "vendor_sell_price": 40,
-    },
-    {
-        "id": "arc_circuitry",
-        "name": "Arc Circuitry",
-        "category": ItemCategory.MATERIAL,
-        "rarity": ItemRarity.BLUE,
-        "weight": 0.4,
-        "vendor_sell_price": 500,
-    },
-    {
-        "id": "arc_motion_core",
-        "name": "Arc Motion Core",
-        "category": ItemCategory.MATERIAL,
-        "rarity": ItemRarity.PURPLE,
-        "weight": 0.8,
-        "vendor_sell_price": 1200,
-        "required_workbench": Workbench.REFINER,
-        "required_workbench_level": 3,
-    },
-    {
-        "id": "broken_arc_module",
-        "name": "Broken Arc Module",
-        "category": ItemCategory.TRINKET,
-        "rarity": ItemRarity.BLUE,
-        "weight": 1.5,
-        "vendor_sell_price": 150,
-    },
-    {
-        "id": "vendor_trinket",
-        "name": "Tarnished Lighter",
-        "category": ItemCategory.TRINKET,
-        "rarity": ItemRarity.GRAY,
-        "weight": 0.1,
-        "vendor_sell_price": 80,
-    },
-    {
-        "id": "extended_mag",
-        "name": "Extended Mag",
-        "category": ItemCategory.ATTACHMENT,
-        "rarity": ItemRarity.GREEN,
-        "weight": 0.35,
-        "vendor_sell_price": 250,
-    },
-]
+SAMPLE_ITEMS = CATALOG_ITEMS
 
 
 def seed_static_data(session: Session) -> None:
-    if session.get(ItemStatic, "metal_parts") is not None:
-        return
-
-    session.add_all([ItemStatic(**item) for item in SAMPLE_ITEMS])
+    for item in CATALOG_ITEMS:
+        existing = session.get(ItemStatic, item["id"])
+        if existing is None:
+            session.add(ItemStatic(**item))
+            continue
+        for key, value in item.items():
+            if key != "id":
+                setattr(existing, key, value)
     session.flush()
 
-    gunsmith_upgrade = Recipe(
-        output_item_id=None,
-        output_qty=0,
-        recipe_type=RecipeType.HIDEOUT_UPGRADE,
-        station=Workbench.GUNSMITH,
-        station_level=2,
-        label="Gunsmith Level 2",
-        ingredients=[
-            RecipeIngredient(item_id="metal_parts", quantity=20),
-            RecipeIngredient(item_id="steel_springs", quantity=4),
-        ],
-    )
-    magnet_augment = Recipe(
-        output_item_id="extended_mag",
-        output_qty=1,
-        recipe_type=RecipeType.CRAFT,
-        station=Workbench.GUNSMITH,
-        station_level=1,
-        label="Extended Mag",
-        ingredients=[RecipeIngredient(item_id="steel_springs", quantity=3)],
-    )
-    session.add_all([gunsmith_upgrade, magnet_augment])
+    wanted_labels = {spec["label"] for spec in [*HIDEOUT_RECIPES, *CRAFT_RECIPES]}
+    for recipe in list(session.scalars(select(Recipe)).all()):
+        if recipe.label not in wanted_labels:
+            session.delete(recipe)
+    session.flush()
 
-    session.add_all(
-        [
-            RecyclingYield(
-                source_item_id="broken_arc_module",
-                result_item_id="arc_circuitry",
-                quantity=2,
-                context=RecycleContext.IN_STASH,
-                result_weight=0.8,
-            ),
-            RecyclingYield(
-                source_item_id="broken_arc_module",
-                result_item_id="arc_circuitry",
-                quantity=1,
-                context=RecycleContext.IN_RAID,
-                result_weight=0.4,
-            ),
-        ]
-    )
+    existing_labels = set(session.scalars(select(Recipe.label)).all())
+    for spec in HIDEOUT_RECIPES:
+        if spec["label"] in existing_labels:
+            continue
+        session.add(
+            Recipe(
+                output_item_id=None,
+                output_qty=0,
+                recipe_type=RecipeType.HIDEOUT_UPGRADE,
+                station=spec["station"],
+                station_level=spec["station_level"],
+                label=spec["label"],
+                ingredients=[
+                    RecipeIngredient(item_id=item_id, quantity=qty) for item_id, qty in spec["ingredients"]
+                ],
+            )
+        )
+    for spec in CRAFT_RECIPES:
+        if spec["label"] in existing_labels:
+            continue
+        session.add(
+            Recipe(
+                output_item_id=spec["output_item_id"],
+                output_qty=spec["output_qty"],
+                recipe_type=RecipeType.CRAFT,
+                station=spec["station"],
+                station_level=spec["station_level"],
+                label=spec["label"],
+                ingredients=[
+                    RecipeIngredient(item_id=item_id, quantity=qty) for item_id, qty in spec["ingredients"]
+                ],
+            )
+        )
+    session.flush()
+
+    existing_yields = {
+        (row.source_item_id, row.result_item_id, row.context)
+        for row in session.scalars(select(RecyclingYield)).all()
+    }
+    for spec in RECYCLING_YIELDS:
+        key = (spec["source_item_id"], spec["result_item_id"], spec["context"])
+        if key in existing_yields:
+            continue
+        session.add(RecyclingYield(**spec))
     session.commit()

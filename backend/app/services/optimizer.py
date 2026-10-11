@@ -26,7 +26,13 @@ REASON_UNUSABLE = "Unusable Core"
 _WORKBENCH_LEVEL = {
     Workbench.SCRAPPY.value: "scrappy_level",
     Workbench.GUNSMITH.value: "gunsmith_level",
+    Workbench.GEAR_BENCH.value: "gear_bench_level",
+    Workbench.MEDICAL_LAB.value: "medical_lab_level",
+    Workbench.EXPLOSIVES_STATION.value: "explosives_station_level",
+    Workbench.UTILITY_STATION.value: "utility_station_level",
     Workbench.REFINER.value: "refiner_level",
+    Workbench.RESEARCH_STATION.value: "research_station_level",
+    Workbench.STASH.value: "stash_level",
 }
 
 
